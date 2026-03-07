@@ -1,0 +1,11 @@
+# pip3 install 'google-cloud-bigquery[bqstorage,pandas]' polars pyarrow
+google-cloud-bigquery[bqstorage,pandas]
+polars 
+pyarrow
+
+# pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+torch 
+torchvision 
+
+# pip3 install transformers
+transformers
