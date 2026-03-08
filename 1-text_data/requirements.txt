@@ -9,3 +9,11 @@ torchvision
 
 # pip3 install transformers
 transformers
+
+# pip3 install umap-learn hdbscan sentence-transformers matplotlib pandas scikit-learn
+umap-learn
+hdbscan
+sentence-transformers
+matplotlib
+pandas
+scikit-learn
