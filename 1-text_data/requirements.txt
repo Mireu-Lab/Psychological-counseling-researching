@@ -17,3 +17,6 @@ sentence-transformers
 matplotlib
 pandas
 scikit-learn
+
+# pip3 install seaborn
+seaborn
