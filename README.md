@@ -15,7 +15,7 @@
 |**조건**|**도구**|
 |:---:|:---:|
 |시스템|Linux codespaces 6.8.0-1044-azure 22.04.1-Ubuntu SMP x86_64 GNU/Linux|
-|언어|Golang 1.18.1|
+|언어|Golang 1.25.4|
 |프레임워크|[pkg.go.dev/github.com/go-gota/gota/dataframe](https://pkg.go.dev/github.com/go-gota/gota/dataframe),<br>[pkg.go.dev/gorgonia.org/gorgonia](https://pkg.go.dev/gorgonia.org/gorgonia),<br>[pkg.go.dev/gonum.org/v1/gonum](https://pkg.go.dev/gonum.org/v1/gonum),<br>[pkg.go.dev/gonum.org/v1/plot](https://pkg.go.dev/gonum.org/v1/plot),<br>[pkg.go.dev/github.com/go-echarts/go-echarts/v2](https://pkg.go.dev/github.com/go-echarts/go-echarts/v2)|
 
 
