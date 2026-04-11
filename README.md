@@ -16,6 +16,7 @@
 |:---:|:---:|
 |시스템|Linux codespaces 6.8.0-1044-azure 22.04.1-Ubuntu SMP x86_64 GNU/Linux|
 |언어|Golang 1.25.4|
+|jupyter 커널|Golang (gonb)|
 |프레임워크|[pkg.go.dev/github.com/go-gota/gota/dataframe](https://pkg.go.dev/github.com/go-gota/gota/dataframe),<br>[pkg.go.dev/gorgonia.org/gorgonia](https://pkg.go.dev/gorgonia.org/gorgonia),<br>[pkg.go.dev/gonum.org/v1/gonum](https://pkg.go.dev/gonum.org/v1/gonum),<br>[pkg.go.dev/gonum.org/v1/plot](https://pkg.go.dev/gonum.org/v1/plot),<br>[pkg.go.dev/github.com/go-echarts/go-echarts/v2](https://pkg.go.dev/github.com/go-echarts/go-echarts/v2)|
 
 
@@ -43,7 +44,7 @@
 
 [ **제시** ] : font는 `/workspaces/Psychological-counseling-researching/.fonts/NotoSansKR-Bold.ttf`에 있는 폰트를 사용하여야한다.
 [ **제시** ] : GCP Accsee Key는 `/workspaces/Psychological-counseling-researching/.key/testprojects-453622-d1f78fcce8b7.json`에 있는 JSON파일을 사용하여야한다.
-[ **제시** ] : Processing 표시창도 제시하여야한다.
+[ **제시** ] : Processing (실행) 표시창도 출력 하여야한다.
 
 
 1. **(구현 완료) 텍스트 데이터 파일 정렬후 BigQuery에 저장**
@@ -55,7 +56,8 @@
     **구상된 Table** : sql```SELECT * FROM `testprojects-453622.Psychological_counseling_data.processed_data` ```
 
 3. **(구현 완료) BigQuery에 있는 텍스트 문장 분류**
-    Kiwi를 가지고 Text Tokenizer진행후, BigQuery에 morpheme_classification 저장 하였음.
+    Kiwi를 가지고 Text Tokenizer진행후, *Schema(file_code : STRING, speaker : STRING, session_no : INTEGER, timeline_index : INTEGER, end_content_index : INTEGER, split_row_index : INTEGER, split_contents : STRING)* 으로 구성된 데이터를 BigQuery BigQuery에 morpheme_classification Table에 저장 하였음.
+
     * 문장 종료 규칙: 종결 어미(EF) 뒤에 종결 부호/줄임표/붙임표(SF/SE/SO)가 나올 때만 종료
     **구상된 Table** : sql```SELECT * FROM `testprojects-453622.Psychological_counseling_data.morpheme_classification` ```
 
