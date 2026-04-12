@@ -67,12 +67,31 @@
     * KM-BERT의 Hidden Size 768
     **구상된 Table** : sql```SELECT * FROM `testprojects-453622.Psychological_counseling_data.morpheme_classification_kmbert_embedding` ```
 
-5. **BigQuery에 있는 텍스트 문장 임베딩 후 BigQuery에 저장**
+5. **(구현 완료) BigQuery에 있는 텍스트 문장 임베딩 후 BigQuery에 저장**
     Gemini API에서 Gemini Embedding 1를 가지고 Text Embedding 진행후
     BigQuery에 morpheme_classification_gemini_embedding 저장
     * Gemini Embedding 1은 Gemini API Docs에서 `gemini-embedding-001` 코드명으로 사용.
     * Gemini Embedding 1의 Hidden Size 128 - 3072
 
-<!-- 6. **BigQuery에 있는 임베딩 데이터를 기반으로 의미적 문단 감점 기폭 분석 시각화**
-    의미적 문단 (반복되는 말투 또는 강조되는 단어를 특색하고 대화 횟수)를 평가하여 감정 기폭을  -->
+6. **BigQuery 임베딩 기반 의미적 문단 감정 기복 분석 시각화 (Gemini Embedding 1)**
+    임베딩 벡터 시계열(Timeline_index)을 활용하여 발화자 간 감정 거리(Euclidean/Cosine Distance) 및 가가-각성(V-A) 궤적 이동 속도 계산.
+    * GNN 노드 피처 구성을 위한 인지적 고착(Rumination) 및 사고의 비약(Flight of ideas) 지표 정량화
+    * DataFrame(Gota) 활용 시계열 윈도우(Sliding Window) 크기를 3-turns 단위로 설정.
+    * Go-Echarts를 이용해 시간축에 따른 감정 기복률(Emotional Volatility Rate) 시계열 꺾은선 그래프(Line Chart) 출력 (정상군 vs 우울군/불안장애군 대조 시각화).
 
+7. **BigQuery 임베딩 기반 의미적 문단 감정 기복 분석 시각화 (KM-BERT Embedding)**
+    임베딩 벡터 시계열(Timeline_index)을 활용하여 발화자 간 감정 거리(Euclidean/Cosine Distance) 및 가가-각성(V-A) 궤적 이동 속도 계산.
+    * GNN 노드 피처 구성을 위한 인지적 고착(Rumination) 및 사고의 비약(Flight of ideas) 지표 정량화
+    * DataFrame(Gota) 활용 시계열 윈도우(Sliding Window) 크기를 3-turns 단위로 설정.
+    * Go-Echarts를 이용해 시간축에 따른 감정 기복률(Emotional Volatility Rate) 시계열 꺾은선 그래프(Line Chart) 출력 (정상군 vs 우울군/불안장애군 대조 시각화).
+
+
+8. Multi-view Embedding 기법
+    1. **임베딩 Sinking 및 결합 (Early Fusion):** 
+        BigQuery에 적재된 `morpheme_classification_kmbert_embedding`과 `morpheme_classification_gemini_embedding`을 JOIN하여, 병리-문맥 복합 벡터(Concatenated Vector)를 생성.
+
+    2. **교차 검증 및 평가 (Model Evaluation):**
+        * 모델 A: KM-BERT 임베딩만 사용한 GNN
+        * 모델 B: Gemini 임베딩만 사용한 GNN
+        * 모델 C: 두 임베딩을 결합(또는 비교)한 Ensemble GNN
+        * 위 3가지 모델의 F1-Score를 비교하여, 복합/융합 심리 장애(예: Bipolar, 조현병의 연상 이완 등) 탐지에 있어 다중 차원 임베딩이 얼마나 정확도를 향상시키는지 정량적으로 증명.
