@@ -1,4 +1,4 @@
-module github.com/mireu-lab/psy_research/session05_gemini_embedding
+module github.com/mireu-lab/psychological_counseling_researching/session05_gemini_embedding
 
 go 1.25.4
 

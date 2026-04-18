@@ -122,8 +122,11 @@ func main() {
 	}
 	// 쿼리 작업 완료 대기
 	status, err := job.Wait(ctx)
-	if err != nil || status.Err() != nil {
-		log.Fatalf("Query job failed: %v", status.Err())
+	if err != nil {
+		log.Fatalf("Query wait failed: %v", err)
+	}
+	if err := status.Err(); err != nil {
+		log.Fatalf("Query job failed: %v", err)
 	}
 
 	// 4. Storage API Read Session 생성
