@@ -1,16 +1,0 @@
-[Processing] Step 7: Storage Read API + Gemini Embedding 분산 분석 시작...
-
-[1/5] BigQuery 쿼리 실행 및 임시 테이블 생성 중...
-
-[2/5] Storage Read API를 통한 데이터 병렬 다운로드 시작...
-[Processing] 총 119005행 다운로드 완료. (파일 그룹: 51개)
-
-[3/5] 타임라인 인덱스 기준 메모리 정렬(Sorting) 중...
-
-[4/5] 감정 기복(Euclidean Distance) 분산 병렬 계산 중...
-Calculating   0% |                                    | (0/51, 0 it/hr) [0s:0s]                                                                               Calculating  68% |███████████████████████           | (35/51, 431 it/s) [0s:0s]                                                                               Calculating 100% |██████████████████████████████████| (51/51, 592 it/s)
-
-
-[5/5] 차트 시각화(Go-Echarts) 및 렌더링 중...
-
-[Success] 시각화 결과가 step7_emotional_volatility.html 에 저장되었습니다! 🚀
