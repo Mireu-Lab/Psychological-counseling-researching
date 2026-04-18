@@ -1,0 +1,1 @@
+go run main.go > processing.log 2>&1 &
