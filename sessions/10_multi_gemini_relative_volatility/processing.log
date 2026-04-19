@@ -1,0 +1,29 @@
+Run Config | file_code=A008 speaker=내담자 reliability_k=5
+
+[1/4] 전수 데이터 변동성 집계
+    Storage Read Session: streams=7 requested_max_streams=16
+    Storage stream 병합 / rows=6070 elapsed=3.8s    Storage stream 병합 - rows=12628 elapsed=4.1s    Storage stream 병합 - rows=19361 elapsed=4.1s    Storage stream 병합 \ rows=25089 elapsed=4.2s    Storage stream 병합 - rows=32214 elapsed=4.4s    Storage stream 병합 | rows=39791 elapsed=4.6s    Storage stream 병합 / rows=47823 elapsed=4.8s
+    스트림 배치 병합 완료: batch_count=7 rows=47823
+    decode-embedding [----------------------------]   0.00% (1/47823) elapsed=0s eta=1.8s Avro -> EmbeddingRow    decode-embedding [##--------------------------]   7.32% (3502/47823) elapsed=100ms eta=1s Avro -> EmbeddingRow    decode-embedding [#######---------------------]  26.71% (12775/47823) elapsed=200ms eta=400ms Avro -> EmbeddingRow    decode-embedding [############----------------]  45.91% (21955/47823) elapsed=200ms eta=300ms Avro -> EmbeddingRow    decode-embedding [################------------]  59.95% (28669/47823) elapsed=300ms eta=200ms Avro -> EmbeddingRow    decode-embedding [###################---------]  69.00% (32996/47823) elapsed=400ms eta=200ms Avro -> EmbeddingRow    decode-embedding [#####################-------]  78.40% (37491/47823) elapsed=500ms eta=100ms Avro -> EmbeddingRow    decode-embedding [########################----]  88.20% (42180/47823) elapsed=600ms eta=100ms Avro -> EmbeddingRow    decode-embedding [###########################-]  97.54% (46647/47823) elapsed=600ms eta=0s Avro -> EmbeddingRow    decode-embedding [############################] 100.00% (47823/47823) elapsed=700ms eta=0s Avro -> EmbeddingRow
+    group-file [----------------------------]   0.00% (1/47823) elapsed=0s eta=100ms file_code 그룹화    group-file [############################] 100.00% (47823/47823) elapsed=0s eta=0s file_code 그룹화
+    Storage Read Session: streams=1 requested_max_streams=16
+    Storage stream 병합 \ rows=51 elapsed=200ms
+    스트림 배치 병합 완료: batch_count=1 rows=51
+    session-agg [----------------------------]   1.96% (1/51) elapsed=0s eta=0s session_count 매핑    session-agg [############################] 100.00% (51/51) elapsed=0s eta=0s session_count 매핑
+    volatility [----------------------------]   1.96% (1/51) elapsed=0s eta=100ms 변동성 계산    volatility [##############--------------]  52.94% (27/51) elapsed=100ms eta=100ms 변동성 계산    volatility [############################] 100.00% (51/51) elapsed=200ms eta=0s 변동성 계산
+    완료: 전수 데이터 변동성 집계 (elapsed=20.9s)
+    수집 행 수=47823, 환자 수=51
+    collect-vol [----------------------------]   1.96% (1/51) elapsed=0s eta=0s 분포 벡터 준비    collect-vol [############################] 100.00% (51/51) elapsed=0s eta=0s 분포 벡터 준비
+
+[2/4] Z-Score 정규화
+    완료: Z-Score 정규화 (elapsed=0s)
+    통계: mean=0.328823 std=0.011105 target_volatility=0.331647 z=0.254359
+
+[3/4] 상담 횟수 기반 신뢰도 보정
+    완료: 상담 횟수 기반 신뢰도 보정 (elapsed=0s)
+    보정치: N=6 W=0.545455 adjusted_volatility=0.330363 adjusted_z=0.138741
+
+[4/4] 상대 비교 분포도 생성
+    완료: 상대 비교 분포도 생성 (elapsed=0s)
+Done. Output written to multi_gemini_relative_volatility.html
+Summary | target=A008 sessions=6 patients=51 total_elapsed=20.9s
