@@ -1,0 +1,7 @@
+google-cloud-bigquery[bqstorage,pandas]
+google-auth
+pandas-gbq
+transformers
+torch
+tqdm
+pandas
