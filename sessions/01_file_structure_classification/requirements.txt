@@ -1,0 +1,5 @@
+google-cloud-bigquery[bqstorage,pandas]
+google-auth
+polars
+pyarrow
+pandas-gbq
