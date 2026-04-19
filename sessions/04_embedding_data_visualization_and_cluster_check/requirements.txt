@@ -1,0 +1,9 @@
+google-cloud-bigquery[bqstorage,pandas]
+google-auth
+polars
+pyarrow
+pandas-gbq
+scikit-learn
+umap-learn
+hdbscan
+matplotlib
