@@ -1,0 +1,32 @@
+Run Config | file_code=A008 speaker=내담자 k_clusters=3
+
+[1/4] 군집화 중심점 계산
+    Storage Read Session: streams=3 requested_max_streams=16
+    Storage stream 병합 / rows=15597 elapsed=2.2s    Storage stream 병합 \ rows=30727 elapsed=2.3s    Storage stream 병합 / rows=47823 elapsed=2.4s
+    스트림 배치 병합 완료: batch_count=3 rows=47823
+    decode-kmbert [----------------------------]   0.00% (1/47823) elapsed=0s eta=300ms Avro -> EmbeddingRow    decode-kmbert [###################---------]  68.14% (32586/47823) elapsed=100ms eta=0s Avro -> EmbeddingRow    decode-kmbert [############################] 100.00% (47823/47823) elapsed=100ms eta=0s Avro -> EmbeddingRow
+    group-file [----------------------------]   0.00% (1/47823) elapsed=0s eta=100ms file_code 그룹화    group-file [############################] 100.00% (47823/47823) elapsed=0s eta=0s file_code 그룹화
+    Storage Read Session: streams=1 requested_max_streams=16
+    Storage stream 병합 \ rows=51 elapsed=200ms
+    스트림 배치 병합 완료: batch_count=1 rows=51
+    meta-map [----------------------------]   1.96% (1/51) elapsed=0s eta=0s 신뢰도 메타 매핑    meta-map [############################] 100.00% (51/51) elapsed=0s eta=0s 신뢰도 메타 매핑
+    feature [----------------------------]   1.96% (1/51) elapsed=0s eta=0s 환자별 특징량 계산    feature [############################] 100.00% (51/51) elapsed=0s eta=0s 환자별 특징량 계산
+    완료: 군집화 중심점 계산 (elapsed=11.3s)
+    수집 행 수=47823, 환자 수=51, centroid 수=3
+
+[2/4] 이상치 거리 산출
+    cluster-size [----------------------------]   1.96% (1/51) elapsed=0s eta=0s 클러스터 분포 집계    cluster-size [############################] 100.00% (51/51) elapsed=0s eta=0s 클러스터 분포 집계
+    outlier [----------------------------]   1.96% (1/51) elapsed=0s eta=0s 정상군 중심 이탈거리 계산    outlier [############################] 100.00% (51/51) elapsed=0s eta=0s 정상군 중심 이탈거리 계산
+    완료: 이상치 거리 산출 (elapsed=0s)
+    정상군 클러스터=2(size=24), 대상 이탈거리=0.041554
+
+[3/4] 신뢰도 라벨링
+    label [----------------------------]   1.96% (1/51) elapsed=0s eta=0s 신뢰도 라벨링    label [############################] 100.00% (51/51) elapsed=0s eta=0s 신뢰도 라벨링
+    완료: 신뢰도 라벨링 (elapsed=0s)
+    라벨 분포: 상=43 중=8 하=0
+
+[4/4] 다차원 분포 시각화
+    series [############################] 100.00% (51/51) elapsed=0s eta=0s 시각화 시리즈 준비
+    완료: 다차원 분포 시각화 (elapsed=0s)
+Done. Output written to multi_kmbert_cluster_scatter.html
+Summary | target=A008 patients=51 total_elapsed=11.3s
