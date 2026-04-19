@@ -57,7 +57,8 @@
 [ **제시** ] : font는 `/workspaces/Psychological-counseling-researching/.fonts/NotoSansKR-Bold.ttf`에 있는 폰트를 사용하여야한다.
 [ **제시** ] : GCP Accsee Key는 `/workspaces/Psychological-counseling-researching/.key/testprojects-453622-d1f78fcce8b7.json`에 있는 JSON파일을 사용하여야한다.
 [ **제시** ] : Processing (실행) 표시창도 출력 하여야한다.
-
+[ **제시** ] : 각 그래프들은 가로로 모니터 전체를 채울수있도록 구현하여야하며, 확대 조사 할수있도록 구현하여야한다.
+[ **제시** ] : BigQuery에서 Query를 불러올때 BigQuery Storage Read API를 가지고 데이터 불러오는 방법으로 코드를 재시하여야한다.
 
 
 
@@ -108,8 +109,6 @@
     **구상된 Query** : sql```WITH Target_Processed_Data AS ( SELECT file_code, ANY_VALUE(stage) AS stage FROM testprojects-453622.Psychological_counseling_data.processed_data GROUP BY file_code ) SELECT e.file_code, e.timeline_index, e.embedding, p.stage FROM testprojects-453622.Psychological_counseling_data.morpheme_classification_gemini_embedding AS e JOIN Target_Processed_Data AS p ON e.file_code = p.file_code ORDER BY e.file_code, e.timeline_index ASC```
 
 
-
-
 7. **(구현 완료) <단일 상담자/내담자 심리 분석> BigQuery 임베딩 기반 의미적 문단 감정 기복 분석 시각화 (Gemini Embedding 1)**
     *   **데이터 로드:** `morpheme_classification_gemini_embedding`에서 특정 `file_code`의 시계열 벡터 추출.
     *   **지표 산출:**
@@ -129,8 +128,7 @@
     *   **Processing:** `[1/3] BERT 임베딩 로드` → `[2/3] 고착/비약 지표 정량화` → `[3/3] Area Chart 시각화`
 
 
-
-9. **<단일 상담자/내담자 심리 분석> 늪과 풍경: KM-BERT(Area) + Gemini(Line) Merge 시각화**
+9. **(구현 완료) <단일 상담자/내담자 심리 분석> 늪과 풍경: KM-BERT(Area) + Gemini(Line) Merge 시각화**
     **[목표]**
     의학적 고착 상태를 나타내는 **'늪(Swamp)'**과 문맥적 비약을 나타내는 **'풍경(Landscape)'**을 중첩(Overlap)시켜, 
     내담자가 특정 병리적 주제에 갇힌 채(KM-BERT) 얼마나 비정상적인 인지적 널뛰기(Gemini)를 수행하는지 분석함.
@@ -151,7 +149,7 @@
     
 
 
-10. **<다중 상담자/내담자 심리 분석> BigQuery 임베딩 기반 의미적 문단 감정 기복 분석 시각화 (Gemini Embedding 1)**
+10. **(구현 완료) <다중 상담자/내담자 심리 분석> BigQuery 임베딩 기반 의미적 문단 감정 기복 분석 시각화 (Gemini Embedding 1)**
     *   **상대 비교 알고리즘:**
         1.  **Global Baseline:** 전체 내담자 집단의 `평균 변동성(μ)`과 `표준편차(σ)`를 비지도 방식으로 산출.
         2.  **Z-Score Normalization:** 분석 대상 내담자의 변동성을 집단 내 상대적 위치($Z = (V - \mu) / \sigma$)로 환산.
@@ -161,7 +159,7 @@
     *   **Processing:** `[1/4] 전수 데이터 변동성 집계` → `[2/4] Z-Score 정규화` → `[3/4] 상담 횟수 기반 신뢰도 보정` → `[4/4] 상대 비교 분포도 생성`
 
 
-11. **<다중 상담자/내담자 심리 분석> BigQuery 임베딩 기반 의미적 문단 감정 기복 분석 시각화 (KM-BERT Embedding)**
+11. **(구현 완료) <다중 상담자/내담자 심리 분석> BigQuery 임베딩 기반 의미적 문단 감정 기복 분석 시각화 (KM-BERT Embedding)**
     *   **상대 비교 알고리즘:**
         1.  KM-BERT 임베딩 기반의 문장 간 유사도를 통해 '전체 내담자 집단의 대화 패턴 군집' 생성 (K-Means).
         2.  특정 내담자가 '정상군(일반군)' 클러스터에서 얼마나 벗어나 있는지(Euclidean Distance from Centroid) 측정.
@@ -170,10 +168,35 @@
     *   **Processing:** `[1/4] 군집화 중심점 계산` → `[2/4] 이상치 거리 산출` → `[3/4] 신뢰도 라벨링` → `[4/4] 다차원 분포 시각화`
 
 
-12. Multi-view Embedding 기법
+12. **<다중 내담자 심리 분석> 심리 지형 기반 다차원 피처 추출 및 벡터화**
+    *   **목표:** 개별 내담자의 '늪(Swamp)'과 '풍경(Landscape)' 데이터를 단일 수치 벡터로 압축하여 군집화의 입력값으로 만듦.
+    *   **데이터 로드:** BigQuery에서 모든 `file_code`별 세션 전체의 KM-BERT 고착도 및 Gemini 변동성 통계량 산출.
+    *   **지표 산출 (The Signature Vector):**
+        1.  **Swamp Density (늪의 밀도):** 세션 전체의 Swamp Index 평균값 ($\mu_{swamp}$).
+        2.  **Landscape Volatility (풍경의 요동):** Landscape Index의 표준편차 ($\sigma_{landscape}$).
+        3.  **Spike Frequency (번개 빈도):** 임계치($\mu + 2\sigma$)를 넘는 사고 비약 지점의 발생 빈도.
+        4.  **Dissonance Score (불일치 지수):** Swamp Index와 Landscape Index 간의 상관계수 (Pearson). *음의 상관관계가 높을수록 융합 심리 가능성 농후.*
+    *   **Processing:** `[1/3] 내담자별 시계열 통계량 집계` → `[2/3] 피처 정규화(Min-Max Scaling)` → `[3/3] 내담자별 4차원 피처 벡터 생성`
+
+
+13. **<다중 내담자 심리 분석> 비지도 학습 기반 이상 심리 군집화 및 위상 시각화**
+    *   **목표:** 추출된 피처 벡터를 활용하여 유사한 이상 심리 패턴을 가진 내담자들을 그룹핑하고, 각 군집의 임상적 의미를 해석함.
+    *   **알고리즘 적용:** 
+        *   `gonum/stat` 패키지를 사용하여 **K-Means Clustering** 수행.
+        *   Elbow Method를 통해 최적의 군집 수($K$) 결정.
+    *   **시각화:** `go-echarts` Scatter Chart를 사용하여 2D/3D 공간에 내담자들을 점으로 표시.
+        *   X축: Swamp Density (고착도)
+        *   Y축: Landscape Volatility (변동성)
+        *   Color: 클러스터 ID (군집 결과)
+    *   **DSM-5/ICD-11 도메인 매핑:**
+        *   **Cluster A (High Swamp, Low Volatility):** 우울증/반추 중심군 매핑.
+        *   **Cluster B (Low Swamp, High Volatility):** 양극성 장애(조증)/사고 비약군 매핑.
+        *   **Cluster C (High Swamp, High Volatility):** **얀데레/경계선 인격장애 등 융합 심리군**으로 정의.
+    *   **Processing:** `[1/4] K-Means 클러스터링 실행` → `[2/4] 차원 축소(PCA) 기반 좌표 변환` → `[3/4] 클러스터별 중심점(Centroid) 산출` → `[4/4] 군집 위상도 시각화`
+
+14. Multi-view Embedding 기법
     1. **임베딩 Sinking 및 결합 (Early Fusion):**
         BigQuery에 적재된 `morpheme_classification_kmbert_embedding`과 `morpheme_classification_gemini_embedding`을 JOIN하여, 병리-문맥 복합 벡터(Concatenated Vector)를 생성.
-
 
     2. **교차 검증 및 평가 (Model Evaluation):**
         * 모델 A: KM-BERT 임베딩만 사용한 GNN
