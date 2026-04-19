@@ -1,0 +1,28 @@
+Run Config | file_code=A008 session_no=8 speaker=내담자
+
+[1/4] 멀티 임베딩 Sinking + Storage Read API 로드
+    start=04:00:44
+    임시 테이블 생성 완료: temp_swamp_landscape_1776571244761772922
+    Storage Read Session: streams=3 requested_max_streams=16
+    Storage stream 병합 \ rows=2707 elapsed=2s    Storage stream 병합 \ rows=5575 elapsed=2.2s    Storage stream 병합 / rows=8789 elapsed=3s
+    스트림 배치 병합 완료: batch_count=3 rows=8789
+    완료: 멀티 임베딩 Sinking + Storage Read API 로드 (elapsed=10.2s)
+    수집된 행 수: 8789
+
+[2/4] 고착도(늪) 및 변동성(풍경) 산출
+    start=04:00:54
+    distance [----------------------------]   0.01% (1/8788) elapsed=0s eta=0s 코사인 변위 계산    distance [############################] 100.00% (8788/8788) elapsed=0s eta=0s 코사인 변위 계산
+    완료: 고착도(늪) 및 변동성(풍경) 산출 (elapsed=0s)
+    통계: mean=0.275924 std=0.074376 spike_threshold=0.424676
+
+[3/4] 이중 축(Dual-Axis) 차트 생성
+    start=04:00:55
+    swamp-area [----------------------------]   0.01% (1/8788) elapsed=0s eta=0s Area 데이터 준비    swamp-area [############################] 100.00% (8788/8788) elapsed=0s eta=0s Area 데이터 준비
+    완료: 이중 축(Dual-Axis) 차트 생성 (elapsed=0s)
+
+[4/4] 융합 심리 패턴 마킹
+    start=04:00:55
+    landscape-mark [----------------------------]   0.01% (1/8788) elapsed=0s eta=0s Spike 마커 설정    landscape-mark [############################] 100.00% (8788/8788) elapsed=0s eta=0s Spike 마커 설정
+    완료: 융합 심리 패턴 마킹 (elapsed=100ms)
+Done. Output written to swamp_landscape_merge.html
+Summary | spikes=1 total_points=8788 total_elapsed=10.3s
